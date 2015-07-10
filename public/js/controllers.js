@@ -5,11 +5,11 @@ expressTestAppControllers.service('sharedProperties', function () {
     var property = null;
 
     return {
-        getProperty: function () {
-            return property;
+        getProperty: function (value) {
+            return localStorage.getItem('token');
         },
         setProperty: function(value) {
-            property = value;
+        	localStorage.setItem('token', JSON.stringify(value));
         }
     };
 });
@@ -32,7 +32,7 @@ expressTestAppControllers.controller('LoginCtrl', function ($scope, $http, $loca
 
 expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http, $location, sharedProperties) {
   			
-	var token = sharedProperties.getProperty();
+	var token = JSON.parse(sharedProperties.getProperty());
 	var url = 'articles.json';
 
 	$http({method: 'GET', url, headers: {token: token}})
