@@ -18,13 +18,15 @@ expressTestAppControllers.controller('LoginCtrl', function ($scope, $http, $loca
     
     $scope.authenticate = function(user, password) {
 	    $http.post('auth.json', {username: user, password: password})
-		    .success(function(data, status, headers, config) {		
-	  			sharedProperties.setProperty(data.token);
-	  			$location.path('/articles-list');
-		  	})
-		    .error(function(data, status, headers, config) {
-		  		alert("There has been an error processing your login request. Please contact system admin.");
-		  	});
+		    .success(function(data, status, headers, config) {
+		    	if (data.success == false) {
+	    			$location.path('/');
+	    			alert("There has been an error processing your login request. Please contact system admin.");
+		    	} else {
+		    		sharedProperties.setProperty(data.token);
+	  				$location.path('/articles-list');
+		    	};
+	 	  	});
     };
 });
 
