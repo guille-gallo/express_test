@@ -1,0 +1,17 @@
+.articles-list {
+	margin-bottom: 10px;
+}
+.block-container {
+	padding: 15px;
+}
+.list {
+	background: #D4D8D1;
+	height: 100%;
+}
+.login {
+	background: #577492;
+	height: 100%;	
+}
+span.strong {
+	font-weight: bold;
+}
