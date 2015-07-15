@@ -9,7 +9,7 @@
 			        <option value="author">Author</option>
 			        <option value="id">Article Id</option>
 			      </select>
-			      <button ng-click="getBack()" class="logout">Log Out</button>
+			      <button ng-click="getBack()" class="btn btn-warning logout">Log Out</button>
 			    </div>
 		      <ul class="articles">
 		        <li ng-repeat="article in articles | filter:query | orderBy:orderProp">
