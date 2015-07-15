@@ -18,11 +18,11 @@ expressTestAppControllers.controller('LoginCtrl', function ($scope, $http, $loca
     
     $scope.authenticate = function(user, password) {
 	    $http.post('auth.json', {username: user, password: password})
-		    .success(function(data, status, headers, config) {
+		    .success(function(data) {
 		    	if (data.success == false) {
 	    			$location.path('/');
 	    			alert("There has been an error processing your login request. Please contact system admin.");
-		    	} else {
+		    	} else if (data.success == true) {
 		    		sharedProperties.setProperty(data.token);
 	  				$location.path('/articles-list');
 		    	};
@@ -37,17 +37,33 @@ expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http
 
 	$http({method: 'GET', url, headers: {token: token}})
 		.success(function(data) {
-			makeData(data);
+
+			var articlesData = data;
+
+			$http.get('articles/photos.json')
+				.success(function(data) {
+
+			      var images = data;
+
+			      makeData(articlesData, images);		      
+			    });
 		})
 		.error(function(data) {
 		  	alert("There has been an error processing your articles list. Please contact system admin.");
 		});
 
-	function makeData (data) {
+	function makeData (articlesData, images) {
 		$scope.articles = [];
-		for (i = 0; i < data.length; i++) { 
-			$scope.articles[i] = data[i];
-		}
+
+		for (i = 0; i < articlesData.length; i++) { 
+			$scope.articles[i] = articlesData[i];		
+    	}
+		for (i = 0; i < images.length; i++) {
+			if ($scope.articles[i].id === images[i].id) {
+				$scope.articles[i].imageUrl = (images[i].imageUrl);
+			}				
+		};
+		
 		$scope.orderProp = 'author';
 	}
 

@@ -1,5 +1,12 @@
-.articles-list {
-	margin-bottom: 10px;
+.articles {
+	list-style: none;
+}
+.article-block {
+	padding: 30px;
+}
+.article-image {
+	float:right;
+	padding: 10px;
 }
 .block-container {
 	padding: 15px;
@@ -11,6 +18,9 @@
 .login {
 	background: #577492;
 	height: 100%;	
+}
+.logout{
+	margin-left: 155px;
 }
 span.strong {
 	font-weight: bold;

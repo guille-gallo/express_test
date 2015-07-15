@@ -9,15 +9,18 @@
 			        <option value="author">Author</option>
 			        <option value="id">Article Id</option>
 			      </select>
-			    </div> 
+			      <button ng-click="getBack()" class="logout">Log Out</button>
+			    </div>
 		      <ul class="articles">
-		        <li ng-repeat="article in articles | filter:query | orderBy:orderProp" class="articles-list">
-		          <span class="strong">Title: </span>{{article.title}}</br>
-		          <span class="strong">Author: </span>{{article.author}}</br>
-		          <span class="strong">Description: </span>{{article.body}}</br>
+		        <li ng-repeat="article in articles | filter:query | orderBy:orderProp">
+			        <div class="article-block">
+	   		          <div class="article-image"><img src={{article.imageUrl}} /></div>
+			          <span class="strong">Title: </span>{{article.title}}</br>
+			          <span class="strong">Author: </span>{{article.author}}</br>
+			          <span class="strong">Description: </span>{{article.body}}
+	   		        </div>
 		        </li>
-		      </ul>
-				<button ng-click="getBack()">Log Out</a>		      
+		      </ul>		      
 		    </div>	  
 		</div>
 	</div>
