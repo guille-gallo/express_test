@@ -37,7 +37,8 @@
 }
 
 .logout{
-	margin-left: 155px;
+  float: right;
+  margin-right: 26px;
 }
 
 span.strong {
