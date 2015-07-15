@@ -13,7 +13,7 @@
 }
 .list {
 	background: #D4D8D1;
-	background-size: cover;
+	height: 100%;	
 }
 .login {
 	background: #577492;
