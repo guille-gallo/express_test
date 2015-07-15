@@ -17,6 +17,9 @@
 	.block-container--login {
 		margin: 50px;
 	}
+	.block-container--search {
+		margin-left: 55px;
+	}
 
 .list {
 	background: #D4D8D1;
@@ -24,7 +27,7 @@
 }
 
 .login {
-	background: #577492;
+	background: #D4D8D1;
 	border-image: linear-gradient(0deg, transparent, #000 50%, transparent) 1 0 100%;
   	-webkit-border-image: -webkit-linear-gradient(0deg, transparent, #000 50%, transparent) 1 0 100%;
   	-o-border-image: -o-linear-gradient(0deg, transparent, #000 50%, transparent) 1 0 100%;
