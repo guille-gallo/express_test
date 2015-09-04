@@ -9,10 +9,11 @@
 			        <option value="author">Author</option>
 			        <option value="id">Article Id</option>
 			      </select>
+			      <button ng-click="displayList()" ng-disabled="{{isDisabled}}" class="btn btn-primary logout">Show list</button>
 			      <button ng-click="getBack()" class="btn btn-warning logout">Log Out</button>
 			    </div>
 		      <ul class="articles">
-		        <li ng-repeat="article in articles | filter:query | orderBy:orderProp">
+		        <li class="article" ng-show="showList" ng-repeat="article in articles | filter:query | orderBy:orderProp" ng-model="article.id" ng-click="checkArticle(article.id)">
 			        <div class="article-block">
 	   		          <div class="article-image"><img src={{article.imageUrl}} /></div>
 			          <span class="strong">Title: </span>{{article.title}}</br>

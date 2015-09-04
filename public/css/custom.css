@@ -2,6 +2,10 @@
 	list-style: none;
 }
 
+.article {
+	cursor: pointer;
+}
+
 .article-block {
 	padding: 30px;
 }

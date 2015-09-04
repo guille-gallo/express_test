@@ -14,6 +14,21 @@ expressTestAppControllers.service('sharedProperties', function () {
     };
 });
 
+expressTestAppControllers.service('sharedId', function () {
+    
+    var property = null;
+
+    return {
+        getProperty: function () {
+            return localStorage.getItem('property');
+        },
+        setProperty: function(value) {
+        	//property = value;
+        	localStorage.setItem('property', JSON.stringify(value));
+        }
+    };
+});
+
 expressTestAppControllers.controller('LoginCtrl', function ($scope, $http, $location, sharedProperties) {
     
     $scope.authenticate = function(user, password) {
@@ -36,8 +51,70 @@ expressTestAppControllers.controller('LoginCtrl', function ($scope, $http, $loca
     };
 });
 
-expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http, $location, sharedProperties) {
+expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http, $location, sharedProperties, sharedId) {
   			
+	var token = JSON.parse(sharedProperties.getProperty());
+	var url = 'articles.json';
+
+	$http({method: 'GET', url, headers: {token: token}})
+		.success(function(data) {
+
+			var articlesData = data;
+			/*console.log(articlesData);
+			if (!articlesData){
+				$scope.isDisabled = true;
+			}*/
+
+			$http.get('articles/photos.json')
+				.success(function(data) {
+
+			      var images = data;
+
+			      makeData(articlesData, images);		      
+			    });
+		})
+		.error(function(data) {
+		  	alert("There has been an error processing your articles list. Please contact system admin.");
+		});
+
+	function makeData (articlesData, images) {
+
+
+
+		$scope.articles = [];
+
+		for (i = 0; i < articlesData.length; i++) { 
+			$scope.articles[i] = articlesData[i];		
+    	}
+		for (i = 0; i < images.length; i++) {
+			if ($scope.articles[i].id === images[i].id) {
+				$scope.articles[i].imageUrl = (images[i].imageUrl);
+			}				
+		};
+		
+		$scope.orderProp = 'author';
+		$scope.showList = false;
+	} 
+
+	$scope.getBack = function () {
+		$location.path('/login');
+	}
+
+	$scope.checkArticle = function (articleId) {
+		$location.path("/article/" + articleId);
+		sharedId.setProperty(articleId);
+	}
+	
+	$scope.displayList = function () {
+		$scope.showList = true;
+	}
+
+});
+
+expressTestAppControllers.controller('ArticlesDetailCtrl', function ($scope, $http, $location, sharedProperties, sharedId) {
+
+
+
 	var token = JSON.parse(sharedProperties.getProperty());
 	var url = 'articles.json';
 
@@ -71,9 +148,24 @@ expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http
 		};
 		
 		$scope.orderProp = 'author';
-	} 
 
-	$scope.getBack = function () {
-		$location.path('/login');
+		checkItem($scope.articles);
 	}
+
+	function checkItem (items) {
+		var theID = JSON.parse(sharedId.getProperty());
+		console.log(theID)
+		for (i=0; i < items.length;i++) {
+			if (theID === items[i].id) {
+				$scope.articulo = {
+					title: items[i].title,
+					author: items[i].author,
+					body: items[i].body,
+					imageUrl: items[i].imageUrl
+				}
+			}
+			//console.log(items[i]);
+		}
+	}
+	//console.log(sharedId.getProperty());
 });
