@@ -6,6 +6,11 @@
 	cursor: pointer;
 }
 
+a.article {
+	text-decoration: none;
+	color: #000000;
+}
+
 .article-block {
 	padding: 30px;
 }

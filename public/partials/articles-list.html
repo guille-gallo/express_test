@@ -13,14 +13,18 @@
 			      <button ng-click="getBack()" class="btn btn-warning logout">Log Out</button>
 			    </div>
 		      <ul class="articles">
-		        <li class="article" ng-show="showList" ng-repeat="article in articles | filter:query | orderBy:orderProp" ng-model="article.id" ng-click="checkArticle(article.id)">
-			        <div class="article-block">
-	   		          <div class="article-image"><img src={{article.imageUrl}} /></div>
-			          <span class="strong">Title: </span>{{article.title}}</br>
-			          <span class="strong">Author: </span>{{article.author}}</br>
-			          <span class="strong">Description: </span>{{article.body}}
-	   		        </div>
+		      	
+		        <li class="article" ng-show="showList" ng-repeat="article in articles | filter:query | orderBy:orderProp">
+		        	<a class="article" ng-model="article.id" ng-href="#/article/{{article.id}}" ng-click="checkArticle(article.id)">
+				        <div class="article-block">
+		   		          <div class="article-image"><img src={{article.imageUrl}} /></div>
+				          <span class="strong">Title: </span>{{article.title}}</br>
+				          <span class="strong">Author: </span>{{article.author}}</br>
+				          <span class="strong">Description: </span>{{article.body}}
+		   		        </div>
+	   		        </a>
 		        </li>
+		        
 		      </ul>		      
 		    </div>
 		    <div class="col-md-4"></div>	  

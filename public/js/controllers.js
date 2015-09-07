@@ -101,7 +101,6 @@ expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http
 	}
 
 	$scope.checkArticle = function (articleId) {
-		$location.path("/article/" + articleId);
 		sharedId.setProperty(articleId);
 	}
 	
@@ -164,8 +163,6 @@ expressTestAppControllers.controller('ArticlesDetailCtrl', function ($scope, $ht
 					imageUrl: items[i].imageUrl
 				}
 			}
-			//console.log(items[i]);
 		}
 	}
-	//console.log(sharedId.getProperty());
 });
