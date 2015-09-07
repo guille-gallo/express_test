@@ -18,6 +18,14 @@ expressTestApp.config(['$routeProvider',
         templateUrl: 'partials/article-detail.html',
         controller: 'ArticlesDetailCtrl'
       }).
+      when('/test', {
+        templateUrl: 'partials/test.html',
+        controller: 'TestCtrl'
+      }).
+      when('/test/:articleId', {
+        templateUrl: 'partials/test-detail.html',
+        controller: 'TestCtrl'
+      }).
       otherwise({
         redirectTo: '/login'
       });

@@ -1,0 +1,16 @@
+<form novalidate class="simple-form" enctype="multipart/x-www-form-urlencoded">
+  Name: <input type="text" ng-model="user.name" /><br />
+  Description: <input type="text" ng-model="user.description" /><br />
+  Image: <input type="text" ng-model="user.image" /><br />
+  <input type="submit" ng-click="submitTest(user)" value="Save" />
+</form>
+<br />
+<button ng-click="getData()">Show data</button>
+
+<li ng-repeat="article in articles | filter:query">
+  <a ng-model="article._id" ng-href="#/test/{{article._id}}">
+      <span class="strong">Name: </span>{{article.name}}</br>
+      <span class="strong">Description: </span>{{article.description}}</br>
+      <span class="strong">Image: </span>{{article.image}}
+  </a>
+</li>

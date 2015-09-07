@@ -29,6 +29,34 @@ expressTestAppControllers.service('sharedId', function () {
     };
 });
 
+expressTestAppControllers.controller('TestCtrl', function ($scope, $http) {
+	$scope.submitTest = function (user) {
+		$http.post('http://localhost:8080/api/bears', {
+			name: user.name, 
+			description: user.description,
+			image: user.image
+		})
+		    .success(function(data) {
+		    	console.log(data);
+	 	  	});
+	};
+
+	$scope.getData = function () {
+		$http.get('http://localhost:8080/api/bears')
+		    .success(function(data) {
+		    	makeData(data);
+	 	  	});
+	}
+
+	function makeData (articlesData) {
+		$scope.articles = [];
+
+		for (i = 0; i < articlesData.length; i++) { 
+			$scope.articles[i] = articlesData[i];		
+    	}
+	} 
+});
+
 expressTestAppControllers.controller('LoginCtrl', function ($scope, $http, $location, sharedProperties) {
     
     $scope.authenticate = function(user, password) {
@@ -60,10 +88,6 @@ expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http
 		.success(function(data) {
 
 			var articlesData = data;
-			/*console.log(articlesData);
-			if (!articlesData){
-				$scope.isDisabled = true;
-			}*/
 
 			$http.get('articles/photos.json')
 				.success(function(data) {
@@ -78,8 +102,6 @@ expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http
 		});
 
 	function makeData (articlesData, images) {
-
-
 
 		$scope.articles = [];
 
