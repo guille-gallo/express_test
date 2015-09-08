@@ -29,12 +29,12 @@ expressTestAppControllers.service('sharedId', function () {
     };
 });
 
-expressTestAppControllers.controller('TestCtrl', function ($scope, $http) {
+expressTestAppControllers.controller('TestCtrl', function ($scope, $http, sharedId) {
 	$scope.submitTest = function (user) {
 		$http.post('http://localhost:8080/api/bears', {
 			name: user.name, 
 			description: user.description,
-			image: user.image
+			imageUrl: user.image
 		})
 		    .success(function(data) {
 		    	console.log(data);
@@ -54,7 +54,63 @@ expressTestAppControllers.controller('TestCtrl', function ($scope, $http) {
 		for (i = 0; i < articlesData.length; i++) { 
 			$scope.articles[i] = articlesData[i];		
     	}
+	}
+
+	$scope.checkTest = function (articleId) {
+		sharedId.setProperty(articleId);
 	} 
+});
+
+expressTestAppControllers.controller('TestDetailCtrl', function ($scope, $http, sharedId) {
+ 	$http.get('http://localhost:8080/api/bears')
+	    .success(function(data) {
+	    	makeData(data);
+	  	});
+
+	function makeData (articlesData) {
+		$scope.articles = [];
+
+		for (i = 0; i < articlesData.length; i++) { 
+			$scope.articles[i] = articlesData[i];		
+    	}
+    	checkItem($scope.articles);
+	}
+
+	function checkItem (items) {
+		
+		var theID = JSON.parse(sharedId.getProperty());
+
+		for (i=0; i < items.length;i++) {
+			if (theID === items[i]._id) {
+				$scope.articulo = {
+					name: items[i].name,
+					description: items[i].description,
+					image: items[i].imageUrl,
+					_id: items[i]._id
+				}
+			}
+		}
+	}
+
+	$scope.deleteItem = function (item) {
+	 	$http.delete('http://localhost:8080/api/bears/' + item)
+		    .success(function(data) {
+		    	console.log(data);
+		  	});
+	}
+
+	$scope.updateItem = function (item) {
+	 	$http.put('http://localhost:8080/api/bears/' + item, {
+	 		"name": $scope.articulo.name,
+	 		"description": $scope.articulo.description,
+	 		"imageUrl": $scope.articulo.imageUrl
+	 	})
+		    .success(function(data) {
+		    	console.log(data);
+		  	});
+	}
+
+
 });
 
 expressTestAppControllers.controller('LoginCtrl', function ($scope, $http, $location, sharedProperties) {
@@ -175,7 +231,7 @@ expressTestAppControllers.controller('ArticlesDetailCtrl', function ($scope, $ht
 
 	function checkItem (items) {
 		var theID = JSON.parse(sharedId.getProperty());
-		console.log(theID)
+
 		for (i=0; i < items.length;i++) {
 			if (theID === items[i].id) {
 				$scope.articulo = {
