@@ -54,7 +54,7 @@ expressTestAppControllers.controller('LoginCtrl', function ($scope, $http, $loca
 expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http, $location, sharedProperties, sharedId, $window) {
   			
 	var token = JSON.parse(sharedProperties.getProperty());
-	var url = 'http://localhost:8080/api/bears';
+	var url = 'http://localhost:8080/api/items';
 
 	$http({method: 'GET', url})
 		.success(function(data) {
@@ -93,7 +93,7 @@ expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http
 
 	$scope.saveItem = function (user) {
 		console.log(user);
-		$http.post('http://localhost:8080/api/bears', {
+		$http.post('http://localhost:8080/api/items', {
 			name: user.name, 
 			description: user.description,
 			author: user.author
@@ -112,7 +112,7 @@ expressTestAppControllers.controller('ArticlesDetailCtrl', function ($scope, $ht
 
 
 	var token = JSON.parse(sharedProperties.getProperty());
-	var url = 'http://localhost:8080/api/bears';
+	var url = 'http://localhost:8080/api/items';
 
 	$http({method: 'GET', url})
 		.success(function(data) {
@@ -153,7 +153,7 @@ expressTestAppControllers.controller('ArticlesDetailCtrl', function ($scope, $ht
 	}
 
 	$scope.deleteItem = function (item) {
-	 	$http.delete('http://localhost:8080/api/bears/' + item)
+	 	$http.delete('http://localhost:8080/api/items/' + item)
 		    .success(function(data) {
 		    	console.log(data);
 		  	});
@@ -162,7 +162,7 @@ expressTestAppControllers.controller('ArticlesDetailCtrl', function ($scope, $ht
 	}
 
 	$scope.updateItem = function (item) {
-	 	$http.put('http://localhost:8080/api/bears/' + item, {
+	 	$http.put('http://localhost:8080/api/items/' + item, {
 	 		"name": $scope.articulo.name,
 	 		"description": $scope.articulo.description,
 	 		"author": $scope.articulo.author

@@ -45,6 +45,7 @@ a.article {
 .logout{
     position: relative;
     left: 583px;
+    cursor: pointer;
 }
 
 span.strong {
