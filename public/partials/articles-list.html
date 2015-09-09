@@ -2,15 +2,16 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-8">
-
-				<form novalidate class="simple-form" enctype="multipart/x-www-form-urlencoded">
-				  Name: <input type="text" ng-model="user.name" /><br />
-				  Description: <input type="text" ng-model="user.description" /><br />
-				  Author: <input type="text" ng-model="user.author" /><br />
-				  <a ng-click="saveItem(user)" ng-href="#/articles-list">Save</a>
-				</form>
-				<br />
-
+				<a ng-click="getBack()" class="logout">Log Out</a>
+				<div class="singleItemBlock">
+					<form novalidate class="simple-form" enctype="multipart/x-www-form-urlencoded">
+					  Name: <input id="name" type="text" ng-model="user.name" /><br />
+					  Author: <input type="text" ng-model="user.author" /><br />
+					  Description: <br /><textarea id="description" type="text" ng-model="user.description" cols="40" rows="5"></textarea>
+					  <br /><br />				  
+					  <a class="btn btn-primary" ng-click="saveItem(user)" ng-href="#/articles-list">Save</a>
+					</form>
+				</div>
 				<div class="block-container">
 				  <input ng-model="query" placeholder="Search article list..." class="block-container--search">
 			      <span class="strong">Sort by: </span>
@@ -18,11 +19,9 @@
 			        <option value="author">Author</option>
 			        <option value="id">Article Id</option>
 			      </select>
-			      <button ng-click="displayList()" ng-disabled="{{isDisabled}}" class="btn btn-primary logout">Show list</button>
-			      <button ng-click="getBack()" class="btn btn-warning logout">Log Out</button>
+			  	  <button ng-click="displayList()" ng-disabled="{{isDisabled}}" class="btn btn-primary" id="showList">Show list</button>
 			    </div>
-		      <ul class="articles">
-		      	
+		      <ul class="articles">		      	
 		        <li class="article" ng-show="showList" ng-repeat="article in articles | filter:query | orderBy:orderProp">
 		        	<a class="article" ng-model="article.id" ng-href="#/article/{{article._id}}" ng-click="checkItem(article._id)">
 				        <div class="article-block">
@@ -31,8 +30,7 @@
 				          <span class="strong">Description: </span>{{article.description}}
 		   		        </div>
 	   		        </a>
-		        </li>
-		        
+		        </li>		        
 		      </ul>		      
 		    </div>
 		    <div class="col-md-4"></div>	  

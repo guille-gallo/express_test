@@ -2,19 +2,21 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-8">
-				<form novalidate class="simple-form" enctype="multipart/x-www-form-urlencoded">
-				  <span class="strong">Name: </span>
-					<input type="text" value="{{articulo.name}}" ng-model="articulo.name">
-				  </br>
-				  <span class="strong">Author: </span>
-					<input type="text" value="{{articulo.author}}" ng-model="articulo.author">
-				  </br>
-				  <span class="strong">Description: </span>
-				  	<input type="text" value="{{articulo.description}}" ng-model="articulo.description">      
-				  <br />
-				  <a ng-model="articulo._id" ng-click="updateItem(articulo._id)" ng-href="#/articles-list">Update</a><br />
-				  <a ng-model="articulo._id" ng-click="deleteItem(articulo._id)" ng-href="#/articles-list">Delete</a>
-				</form>   
+				<div class="singleItemBlock">
+					<form novalidate class="simple-form" enctype="multipart/x-www-form-urlencoded">
+					  Name: 
+						<input id="name" type="text" value="{{articulo.name}}" ng-model="articulo.name">
+					  </br>
+					  Author: 
+						<input type="text" value="{{articulo.author}}" ng-model="articulo.author">
+					  </br>
+					  Description: <br /><textarea id="description" type="text" ng-model="articulo.description" cols="40" rows="5"></textarea>      
+					  <br />
+					  <a class="btn btn-warning" ng-model="articulo._id" ng-click="updateItem(articulo._id)" ng-href="#/articles-list">Update</a>
+					  <a class="btn btn-danger" ng-model="articulo._id" ng-click="deleteItem(articulo._id)" ng-href="#/articles-list">Delete</a>
+					</form>
+					<a ng-href="#/articles-list"><<-Back</a>
+				</div>   
 		    </div>
 		    <div class="col-md-4"></div>	  
 		</div>
