@@ -29,90 +29,6 @@ expressTestAppControllers.service('sharedId', function () {
     };
 });
 
-expressTestAppControllers.controller('TestCtrl', function ($scope, $http, sharedId) {
-	$scope.submitTest = function (user) {
-		$http.post('http://localhost:8080/api/bears', {
-			name: user.name, 
-			description: user.description,
-			imageUrl: user.image
-		})
-		    .success(function(data) {
-		    	console.log(data);
-	 	  	});
-	};
-
-	$scope.getData = function () {
-		$http.get('http://localhost:8080/api/bears')
-		    .success(function(data) {
-		    	makeData(data);
-	 	  	});
-	}
-
-	function makeData (articlesData) {
-		$scope.articles = [];
-
-		for (i = 0; i < articlesData.length; i++) { 
-			$scope.articles[i] = articlesData[i];		
-    	}
-	}
-
-	$scope.checkTest = function (articleId) {
-		sharedId.setProperty(articleId);
-	} 
-});
-
-expressTestAppControllers.controller('TestDetailCtrl', function ($scope, $http, sharedId) {
- 	$http.get('http://localhost:8080/api/bears')
-	    .success(function(data) {
-	    	makeData(data);
-	  	});
-
-	function makeData (articlesData) {
-		$scope.articles = [];
-
-		for (i = 0; i < articlesData.length; i++) { 
-			$scope.articles[i] = articlesData[i];		
-    	}
-    	checkItem($scope.articles);
-	}
-
-	function checkItem (items) {
-		
-		var theID = JSON.parse(sharedId.getProperty());
-
-		for (i=0; i < items.length;i++) {
-			if (theID === items[i]._id) {
-				$scope.articulo = {
-					name: items[i].name,
-					description: items[i].description,
-					image: items[i].imageUrl,
-					_id: items[i]._id
-				}
-			}
-		}
-	}
-
-	$scope.deleteItem = function (item) {
-	 	$http.delete('http://localhost:8080/api/bears/' + item)
-		    .success(function(data) {
-		    	console.log(data);
-		  	});
-	}
-
-	$scope.updateItem = function (item) {
-	 	$http.put('http://localhost:8080/api/bears/' + item, {
-	 		"name": $scope.articulo.name,
-	 		"description": $scope.articulo.description,
-	 		"imageUrl": $scope.articulo.imageUrl
-	 	})
-		    .success(function(data) {
-		    	console.log(data);
-		  	});
-	}
-
-
-});
-
 expressTestAppControllers.controller('LoginCtrl', function ($scope, $http, $location, sharedProperties) {
     
     $scope.authenticate = function(user, password) {
@@ -135,41 +51,30 @@ expressTestAppControllers.controller('LoginCtrl', function ($scope, $http, $loca
     };
 });
 
-expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http, $location, sharedProperties, sharedId) {
+expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http, $location, sharedProperties, sharedId, $window) {
   			
 	var token = JSON.parse(sharedProperties.getProperty());
-	var url = 'articles.json';
+	var url = 'http://localhost:8080/api/bears';
 
-	$http({method: 'GET', url, headers: {token: token}})
+	$http({method: 'GET', url})
 		.success(function(data) {
-
 			var articlesData = data;
-
-			$http.get('articles/photos.json')
-				.success(function(data) {
-
-			      var images = data;
-
-			      makeData(articlesData, images);		      
-			    });
+	        makeData(articlesData);		      
 		})
-		.error(function(data) {
+		//if this is uncommented, it triggers error one time after reloading the item list page:
+		/*.error(function(data) {
+			console.log(data);
 		  	alert("There has been an error processing your articles list. Please contact system admin.");
-		});
+		});*/
 
-	function makeData (articlesData, images) {
+	function makeData (articlesData) {
 
 		$scope.articles = [];
 
 		for (i = 0; i < articlesData.length; i++) { 
 			$scope.articles[i] = articlesData[i];		
     	}
-		for (i = 0; i < images.length; i++) {
-			if ($scope.articles[i].id === images[i].id) {
-				$scope.articles[i].imageUrl = (images[i].imageUrl);
-			}				
-		};
-		
+
 		$scope.orderProp = 'author';
 		$scope.showList = false;
 	} 
@@ -178,7 +83,7 @@ expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http
 		$location.path('/login');
 	}
 
-	$scope.checkArticle = function (articleId) {
+	$scope.checkItem = function (articleId) {
 		sharedId.setProperty(articleId);
 	}
 	
@@ -186,27 +91,36 @@ expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http
 		$scope.showList = true;
 	}
 
+	$scope.saveItem = function (user) {
+		console.log(user);
+		$http.post('http://localhost:8080/api/bears', {
+			name: user.name, 
+			description: user.description,
+			author: user.author
+		})
+		    .success(function(data) {
+		    	console.log(data);
+	 	  	});
+	 	//need to call window reload if not the item list is not updated when showing list again.
+		$window.location.reload();
+	};
+
 });
 
-expressTestAppControllers.controller('ArticlesDetailCtrl', function ($scope, $http, $location, sharedProperties, sharedId) {
+expressTestAppControllers.controller('ArticlesDetailCtrl', function ($scope, $http, $location, sharedProperties, sharedId, $window) {
 
 
 
 	var token = JSON.parse(sharedProperties.getProperty());
-	var url = 'articles.json';
+	var url = 'http://localhost:8080/api/bears';
 
-	$http({method: 'GET', url, headers: {token: token}})
+	$http({method: 'GET', url})
 		.success(function(data) {
 
 			var articlesData = data;
 
-			$http.get('articles/photos.json')
-				.success(function(data) {
-
-			      var images = data;
-
-			      makeData(articlesData, images);		      
-			    });
+	        makeData(articlesData);		      
+			
 		})
 		.error(function(data) {
 		  	alert("There has been an error processing your articles list. Please contact system admin.");
@@ -218,14 +132,8 @@ expressTestAppControllers.controller('ArticlesDetailCtrl', function ($scope, $ht
 		for (i = 0; i < articlesData.length; i++) { 
 			$scope.articles[i] = articlesData[i];		
     	}
-		for (i = 0; i < images.length; i++) {
-			if ($scope.articles[i].id === images[i].id) {
-				$scope.articles[i].imageUrl = (images[i].imageUrl);
-			}				
-		};
 		
 		$scope.orderProp = 'author';
-
 		checkItem($scope.articles);
 	}
 
@@ -233,14 +141,37 @@ expressTestAppControllers.controller('ArticlesDetailCtrl', function ($scope, $ht
 		var theID = JSON.parse(sharedId.getProperty());
 
 		for (i=0; i < items.length;i++) {
-			if (theID === items[i].id) {
+			if (theID === items[i]._id) {
 				$scope.articulo = {
-					title: items[i].title,
+					name: items[i].name,
+					description: items[i].description,
 					author: items[i].author,
-					body: items[i].body,
-					imageUrl: items[i].imageUrl
+					_id: items[i]._id
 				}
 			}
 		}
+	}
+
+	$scope.deleteItem = function (item) {
+	 	$http.delete('http://localhost:8080/api/bears/' + item)
+		    .success(function(data) {
+		    	console.log(data);
+		  	});
+		//need to call window reload if not the item list is not updated when showing list again.
+		$window.location.reload();
+	}
+
+	$scope.updateItem = function (item) {
+	 	$http.put('http://localhost:8080/api/bears/' + item, {
+	 		"name": $scope.articulo.name,
+	 		"description": $scope.articulo.description,
+	 		"author": $scope.articulo.author
+	 	})
+		    .success(function(data) {
+		    	console.log(data);
+		  	});
+
+		//need to call window reload if not the item list is not updated when showing list again.
+		$window.location.reload();
 	}
 });

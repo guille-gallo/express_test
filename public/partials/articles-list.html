@@ -2,6 +2,15 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-8">
+
+				<form novalidate class="simple-form" enctype="multipart/x-www-form-urlencoded">
+				  Name: <input type="text" ng-model="user.name" /><br />
+				  Description: <input type="text" ng-model="user.description" /><br />
+				  Author: <input type="text" ng-model="user.author" /><br />
+				  <a ng-click="saveItem(user)" ng-href="#/articles-list">Save</a>
+				</form>
+				<br />
+
 				<div class="block-container">
 				  <input ng-model="query" placeholder="Search article list..." class="block-container--search">
 			      <span class="strong">Sort by: </span>
@@ -15,12 +24,11 @@
 		      <ul class="articles">
 		      	
 		        <li class="article" ng-show="showList" ng-repeat="article in articles | filter:query | orderBy:orderProp">
-		        	<a class="article" ng-model="article.id" ng-href="#/article/{{article.id}}" ng-click="checkArticle(article.id)">
+		        	<a class="article" ng-model="article.id" ng-href="#/article/{{article._id}}" ng-click="checkItem(article._id)">
 				        <div class="article-block">
-		   		          <div class="article-image"><img src={{article.imageUrl}} /></div>
-				          <span class="strong">Title: </span>{{article.title}}</br>
+				          <span class="strong">Title: </span>{{article.name}}</br>
 				          <span class="strong">Author: </span>{{article.author}}</br>
-				          <span class="strong">Description: </span>{{article.body}}
+				          <span class="strong">Description: </span>{{article.description}}
 		   		        </div>
 	   		        </a>
 		        </li>
