@@ -1,5 +1,7 @@
 var expressTestApp = angular.module('expressTestApp', [
   'ngRoute',
+  'sharedProperties',
+  'sharedId',
   'expressTestAppControllers'
 ]);
 
@@ -17,14 +19,6 @@ expressTestApp.config(['$routeProvider',
       when('/article/:articleId', {
         templateUrl: 'partials/article-detail.html',
         controller: 'ArticlesDetailCtrl'
-      }).
-      when('/test', {
-        templateUrl: 'partials/test.html',
-        controller: 'TestCtrl'
-      }).
-      when('/test/:articleId', {
-        templateUrl: 'partials/test-detail.html',
-        controller: 'TestDetailCtrl'
       }).
       otherwise({
         redirectTo: '/login'
