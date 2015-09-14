@@ -20,7 +20,7 @@ expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http
 
 		$scope.articles = [];
 
-		for (i = 0; i < articlesData.length; i++) { 
+		for (var i = 0; i < articlesData.length; i++) { 
 			$scope.articles[i] = articlesData[i];		
     	}
 
@@ -38,14 +38,16 @@ expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http
 	
 	$scope.displayList = function () {
 		$scope.showList = true;
+		$scope.showBorrowedList = false;
 	}
 
-	$scope.saveItem = function (user) {
-		console.log(user);
+	$scope.saveItem = function (article) {
+		console.log(article);
+
 		$http.post('http://localhost:8080/api/items', {
-			name: user.name, 
-			description: user.description,
-			author: user.author
+			name: article.name, 
+			description: article.description,
+			author: article.author
 		})
 		    .success(function(data) {
 		    	console.log(data);
@@ -54,4 +56,18 @@ expressTestAppControllers.controller('ArticlesListCtrl', function ($scope, $http
 		$window.location.reload();
 	};
 
+	$scope.displayBorrowedList = function () {
+		$scope.showBorrowedList = true;
+		$scope.showList = false;
+
+		$scope.borrow = [];
+
+		var articles = $scope.articles;
+
+		for (var i = 0; i < articles.length; i++) {
+			if (articles[i].borrowed) {
+				$scope.borrow[i] = articles[i];
+			}			
+		}
+	}
 });

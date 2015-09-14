@@ -44,7 +44,7 @@ a.article {
 
 .logout{
     position: relative;
-    left: 583px;
+    left: 645px;
     cursor: pointer;
 }
 
@@ -67,9 +67,10 @@ span.strong {
 }
 
 .singleItemBlock #description {
-	 word-break:break-all; 
+	 word-break:break-all;
+	 margin-bottom: 5px; 
 }
 
-#showList {
-	float:right;
+.listButtons {
+	float: right;
 }

@@ -12,6 +12,8 @@
 					  </br>
 					  Description: <br /><textarea id="description" type="text" ng-model="articulo.description" cols="40" rows="5"></textarea>      
 					  <br />
+					  Borrowed to: <input type="text" value="{{articulo.borrowed}}" ng-model="articulo.borrowed">
+					  </br>
 					  <a class="btn btn-warning" ng-model="articulo._id" ng-click="updateItem(articulo._id)" ng-href="#/articles-list">Update</a>
 					  <a class="btn btn-danger" ng-model="articulo._id" ng-click="deleteItem(articulo._id)" ng-href="#/articles-list">Delete</a>
 					</form>

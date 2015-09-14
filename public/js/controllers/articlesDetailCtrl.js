@@ -37,6 +37,7 @@ expressTestAppControllers.controller('ArticlesDetailCtrl', function ($scope, $ht
 					name: items[i].name,
 					description: items[i].description,
 					author: items[i].author,
+					borrowed: items[i].borrowed,
 					_id: items[i]._id
 				}
 			}
@@ -56,7 +57,8 @@ expressTestAppControllers.controller('ArticlesDetailCtrl', function ($scope, $ht
 	 	$http.put('http://localhost:8080/api/items/' + item, {
 	 		"name": $scope.articulo.name,
 	 		"description": $scope.articulo.description,
-	 		"author": $scope.articulo.author
+	 		"author": $scope.articulo.author,
+	 		"borrowed": $scope.articulo.borrowed
 	 	})
 		    .success(function(data) {
 		    	console.log(data);
