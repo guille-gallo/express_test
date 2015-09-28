@@ -13,7 +13,7 @@ app.post('/auth.json', function(req, res) {
       username = body.username,
       password = body.password;
 
-  if (username == 'dev' && password == 'moravia') {
+  if (username == 'dev' && password == '1234') {
     // Generate and save the token (forgotten upon server restart).
     currentToken = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     res.send({
